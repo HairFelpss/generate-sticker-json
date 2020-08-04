@@ -6,7 +6,7 @@ const Stickers = require("./models").stickers;
 
 const app = express();
 app.use(express.json());
-const port = 3000;
+const port = 3333;
 
 app.get("/", async (req, res) => {
   try {
