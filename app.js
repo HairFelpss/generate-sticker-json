@@ -31,7 +31,7 @@ app.get("/", async (req, res) => {
     response.rows.zip = "pack.zip";
     res.json(response.rows);
   } catch (err) {
-    console.log(err);
+    res.json(err);
   }
 });
 
