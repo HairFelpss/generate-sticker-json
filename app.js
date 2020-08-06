@@ -28,6 +28,7 @@ app.get("/", async (req, res) => {
           attributes: ["image_name"],
         },
       ],
+      limit: 10,
     });
     res.json(response.rows);
   } catch (err) {
