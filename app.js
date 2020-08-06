@@ -15,6 +15,7 @@ app.get("/", async (req, res) => {
         "id_pack",
         ["id_pack", "identifier"],
         "name",
+        "url_zip",
         "publisher",
         ["url_base", "referencia"],
       ],
