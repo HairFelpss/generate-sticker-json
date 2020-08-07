@@ -38,7 +38,7 @@ app.get("/stickers/:count", async (req, res) => {
   }
 });
 
-app.get("stickers/search/:search", async (req, res) => {
+app.get("/stickers/search/:search", async (req, res) => {
   try {
     const { search } = req.params;
     const response = await Packs.findAndCountAll({
