@@ -33,7 +33,7 @@ app.get("/stickers/:count/:lang", async (req, res) => {
           attributes: ["image_name"],
         },
       ],
-      offset: cont === 0 ? cont : count - 1,
+      offset: cont - 1,
       limit: 10,
     });
     res.json(response.rows);
