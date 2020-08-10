@@ -10,10 +10,13 @@ const app = express();
 app.use(express.json());
 const port = 3333;
 
-app.get("/stickers/:count", async (req, res) => {
+app.get("/stickers/:count/:lang", async (req, res) => {
   try {
-    const { count } = req.params;
+    const { count, lang } = req.params;
     const response = await Packs.findAndCountAll({
+      where: {
+        lang: { [Op.like]: `%${lang}%` },
+      },
       attributes: [
         "id_pack",
         ["id_pack", "identifier"],
