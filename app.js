@@ -13,6 +13,7 @@ const port = 3333;
 app.get("/stickers/:count/:lang", async (req, res) => {
   try {
     const { count, lang } = req.params;
+
     const response = await Packs.findAndCountAll({
       where: {
         lang: { [Op.like]: `%${lang}%` },
@@ -32,7 +33,7 @@ app.get("/stickers/:count/:lang", async (req, res) => {
           attributes: ["image_name"],
         },
       ],
-      offset: count,
+      offset: cont === 0 ? cont : count - 1,
       limit: 10,
     });
     res.json(response.rows);
