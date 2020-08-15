@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 const port = 3333;
 
-app.get("/stickers/:count/:lang", async (req, res) => {
+app.get("/:count/:lang", async (req, res) => {
   try {
     const { count, lang } = req.params;
 
@@ -42,7 +42,7 @@ app.get("/stickers/:count/:lang", async (req, res) => {
   }
 });
 
-app.get("/stickers/search/:search", async (req, res) => {
+app.get("/search/:search", async (req, res) => {
   try {
     const { search } = req.params;
     const response = await Packs.findAndCountAll({
