@@ -7,10 +7,11 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 const app = express();
-app.use(express.json());
 const port = 3333;
 
-app.get("/:count/:lang", async (req, res) => {
+app.use(express.json());
+
+app.get("/list/:count/:lang", async (req, res) => {
   try {
     const { count, lang } = req.params;
 
@@ -42,12 +43,15 @@ app.get("/:count/:lang", async (req, res) => {
   }
 });
 
-app.get("/search/:search", async (req, res) => {
+app.get("/search/:search/:count/:lang", async (req, res) => {
   try {
-    const { search } = req.params;
+    const { search, count, lang } = req.params;
     const response = await Packs.findAndCountAll({
       where: {
-        name: { [Op.like]: `%${search}%` },
+        [Op.and]: [
+          { name: { [Op.like]: `%${search}%` } },
+          { lang: { [Op.like]: `%${lang}%` } },
+        ],
       },
       attributes: [
         "id_pack",
@@ -64,8 +68,10 @@ app.get("/search/:search", async (req, res) => {
           attributes: ["image_name"],
         },
       ],
-      limit: 10,
+      limit: 20,
+      offset: count,
     });
+
     res.json(response.rows);
   } catch (err) {
     res.json(err);
