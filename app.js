@@ -78,6 +78,40 @@ app.get("/search/:search/:count/:lang", async (req, res) => {
   }
 });
 
+app.get("/packList/:count/:lang", async (req, res) => {
+  try {
+    const { count, lang } = req.params;
+
+    const response = await Packs.findAndCountAll({
+      where: {
+        lang: { [Op.like]: `%${lang}%` },
+      },
+      attributes: [
+        "id_pack",
+        ["id_pack", "identifier"],
+        "name",
+        "url_zip",
+        "publisher",
+        ["url_base", "referencia"],
+      ],
+      include: [
+        {
+          model: Stickers,
+          as: "sticker",
+          attributes: ["image_name"],
+          separate: true,
+          limit: 5,
+        },
+      ],
+      offset: count,
+      limit: 10,
+    });
+    res.json(response.rows);
+  } catch (err) {
+    res.json(err);
+  }
+});
+
 app.listen(port, async () => {
   console.log(`Server is up at ${port}`);
 });
