@@ -106,7 +106,28 @@ app.get("/packList/:count/:lang", async (req, res) => {
   }
 });
 
-app.get("/imageList/:pack", async (req, res) => {
+app.get("/savePack/:pack", async (req, res) => {
+  try {
+    const { pack } = req.params;
+
+    const response = await Stickers.findAll({
+      where: {
+        id_pack: { [Op.like]: `%${pack}%` },
+      },
+      attributes: ["image_name"],
+    });
+
+    const webp = response.map((image) =>
+      image.image_name.replace(".png", ".webp")
+    );
+
+    res.json(webp);
+  } catch (err) {
+    res.json(err);
+  }
+});
+
+app.get("/showPack/:pack", async (req, res) => {
   try {
     const { pack } = req.params;
 
