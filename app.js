@@ -86,14 +86,7 @@ app.get("/packList/:count/:lang", async (req, res) => {
       where: {
         lang: { [Op.like]: `%${lang}%` },
       },
-      attributes: [
-        "id_pack",
-        ["id_pack", "identifier"],
-        "name",
-        "url_zip",
-        "publisher",
-        ["url_base", "referencia"],
-      ],
+      attributes: ["id_pack", "name", "url_zip", "publisher", "url_base"],
       include: [
         {
           model: Stickers,
@@ -106,7 +99,22 @@ app.get("/packList/:count/:lang", async (req, res) => {
       offset: count,
       limit: 10,
     });
-    res.json(response.rows);
+
+    const packs = response.rows.map((pack) => ({
+      name: pack.name,
+      intro_images: [
+        pack.url_base + pack.sticker[0].image_name,
+        pack.url_base + pack.sticker[1].image_name,
+        pack.url_base + pack.sticker[2].image_name,
+        pack.url_base + pack.sticker[3].image_name,
+        pack.url_base + pack.sticker[4].image_name,
+      ],
+      publisher: pack.publisher,
+      id: pack.id_pack,
+      zip_url: pack.url_zip,
+    }));
+
+    res.json(packs);
   } catch (err) {
     res.json(err);
   }
