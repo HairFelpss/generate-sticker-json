@@ -100,21 +100,7 @@ app.get("/packList/:count/:lang", async (req, res) => {
       limit: 10,
     });
 
-    const packs = response.rows.map((pack) => ({
-      name: pack.name,
-      intro_images: [
-        pack.url_base + pack.sticker[0].image_name,
-        pack.url_base + pack.sticker[1].image_name,
-        pack.url_base + pack.sticker[2].image_name,
-        pack.url_base + pack.sticker[3].image_name,
-        pack.url_base + pack.sticker[4].image_name,
-      ],
-      publisher: pack.publisher,
-      id: pack.id_pack,
-      zip_url: pack.url_zip,
-    }));
-
-    res.json(packs);
+    res.json(response.rows);
   } catch (err) {
     res.json(err);
   }
