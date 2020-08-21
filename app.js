@@ -106,6 +106,23 @@ app.get("/packList/:count/:lang", async (req, res) => {
   }
 });
 
+app.get("/imageList/:pack", async (req, res) => {
+  try {
+    const { pack } = req.params;
+
+    const response = await Stickers.findAll({
+      where: {
+        id_pack: { [Op.like]: `%${pack}%` },
+      },
+      attributes: ["image_name"],
+    });
+
+    res.json(response);
+  } catch (err) {
+    res.json(err);
+  }
+});
+
 app.listen(port, async () => {
   console.log(`Server is up at ${port}`);
 });
