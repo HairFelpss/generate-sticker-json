@@ -117,9 +117,9 @@ app.get("/savePack/:pack", async (req, res) => {
       attributes: ["image_name"],
     });
 
-    const webp = response.map((image) =>
-      image.image_name.replace(".png", ".webp")
-    );
+    const webp = response.map((image) => ({
+      image_name: image.image_name.replace(".png", ".webp"),
+    }));
 
     res.json(webp);
   } catch (err) {
